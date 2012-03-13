@@ -1,0 +1,4 @@
+#!/bin/bash
+basepath=$(dirname $0)
+cd $basepath/..
+pg_extractor.pl -U postgres -h localhost -d dis -n dis,dis_history,dis_test --getschemata --gettables --getviews --getfuncs --gettypes --orreplace --hostname . --dbdir schema --delete
