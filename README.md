@@ -17,12 +17,14 @@ Additionally Epic has been stale for a few years...
 Dis combines the detailed reporting and checks that pgTap provides with the in database execution model of Epic.
 
 ### Example Test Function
-    CREATE OR REPLACE FUNCTION app_test.test_alpha RETURNS void
+    CREATE OR REPLACE FUNCTION dis_test.test_alpha() RETURNS void
         LANGUAGE plpgsql
         VOLATILE
         SECURITY INVOKER
         AS $_$
-    -- Plan: 1
+    -- module: example
+    -- submodule: basic
+    -- plan: 3
     DECLARE
         _scores   dis.score[] := '{}'::dis.score[];
     BEGIN
