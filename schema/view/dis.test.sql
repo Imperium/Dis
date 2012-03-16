@@ -20,7 +20,7 @@ CREATE OR REPLACE VIEW test AS
            pg_namespace.nspname as schema,
            substring(pg_proc.prosrc from E'--\\s+module[:]\\s+(\\S+)') AS module,
            substring(pg_proc.prosrc from E'--\\s+submodule[:]\\s+(\\S+)') AS submodule,
-           substring(pg_proc.prosrc from E'--\\s+plan[:]\\s+(\\S+)') AS plan
+           substring(pg_proc.prosrc from E'--\\s+plan[:]\\s+(\\d+)')::integer AS plan
     FROM pg_namespace LEFT JOIN pg_proc ON pg_proc.pronamespace::oid = pg_namespace.oid::oid
     WHERE pg_namespace.nspname ~ '_test$' AND pg_proc.proname ~ '^test_';
 
@@ -31,7 +31,7 @@ ALTER TABLE dis.test OWNER TO postgres;
 -- Name: TABLE test; Type: COMMENT; Schema: cod; Owner: postgres
 --
 
-COMMENT ON TABLE test IS 'Tests that can be executed (2012-03-15)';
+COMMENT ON VIEW test IS 'Tests that can be executed (2012-03-15)';
 
 
 --
