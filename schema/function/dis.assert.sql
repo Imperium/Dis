@@ -12,25 +12,24 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: assert(boolean, text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: assert(assertion boolean, message text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION assert(boolean, text DEFAULT '') RETURNS dis.score 
+CREATE OR REPLACE FUNCTION assert(assertion boolean, message text DEFAULT '') RETURNS dis.score 
     LANGUAGE plpgsql
     AS $_$
-/*  Function:     dis.assert(boolean, text DEFAULT '')
+/*  Function:     dis.assert(assertion boolean, message text DEFAULT '')
     Description:  Validate a test assertion
     Affects:      nothing
-    Arguments:    boolean: result of assertion of truth
-                  text: descrition of the test
+    Arguments:    assertion (boolean): result of assertion
+                  message (text): descrition of the test
     Returns:      text
 */
 DECLARE
-    v_assert    ALIAS FOR $1;
     _state      text := 'FAIL';
-    _message    text := COALESCE($2, '');
+    _message    text := COALESCE(message, '');
 BEGIN
-    IF v_assert IS NOT DISTINCT FROM TRUE THEN
+    IF assertion IS NOT DISTINCT FROM TRUE THEN
         state := 'OK';
     END IF;
 
@@ -39,13 +38,13 @@ END;
 $_$;
 
 
-ALTER FUNCTION dis.assert(boolean, text) OWNER TO postgres;
+ALTER FUNCTION dis.assert(assertion boolean, message text) OWNER TO postgres;
 
 --
--- Name: FUNCTION assert(boolean, text); Type: COMMENT; Schema: dis; Owner: postgres
+-- Name: FUNCTION assert(assertion boolean, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION assert(boolean, text) IS 'Validate a test assertion (2012-03-14)';
+COMMENT ON FUNCTION assert(assertion boolean, message text) IS 'Validate a test assertion (2012-03-14)';
 
 
 --
