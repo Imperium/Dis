@@ -41,32 +41,35 @@ BEGIN
         RAISE EXCEPTION 'Test %.% does not exist', test_schema, test_name;
     END IF;
     DELETE FROM dis.result WHERE schema = test_schema AND name = test_name;
-    PERFORM dis.test_wrapper(test_schema, test_name);
-EXCEPTION
-    WHEN OTHERS THEN
-        IF SQLSTATE = 'P0001' AND SQLERRM ~ E'^\\[(\\w+)\\]\\[(\\d+)\\]\\[(\\d+)\\]\\[(\\d+)\\](.*)$' THEN
-            _tally   := regexp_matches(SQLERRM, E'^\\[(\\w+)\\]\\[(\\d+)\\]\\[(\\d+)\\]\\[(\\d+)\\](.*)$');
-            _status  := _tally[1];
-            _count   := _tally[2]::integer;
-            _success := _tally[3]::integer;
-            _failure := _tally[4]::integer;
-            _scores  := _tally[5]::dis.score[];
-            IF _status = 'NONE' THEN
-                _summary := 'Test failed to properly report results';
-            ELSEIF _status = 'FAIL' THEN
-                _summary := _failure::text ||  ' of ' || _count::text || ' assertions failed';
-            ELSEIF _plan <> _count THEN
-                _status := 'FAIL';
-                _summary := 'Test plan of ' || _plan::text || ' assertions not followed, ' || _count::text || ' assertions reported';
+
+    BEGIN
+        PERFORM dis.test_wrapper(test_schema, test_name);
+    EXCEPTION
+        WHEN OTHERS THEN
+            IF SQLSTATE = 'P0001' AND SQLERRM ~ E'^\\[(\\w+)\\]\\[(\\d+)\\]\\[(\\d+)\\]\\[(\\d+)\\](.*)$' THEN
+                _tally   := regexp_matches(SQLERRM, E'^\\[(\\w+)\\]\\[(\\d+)\\]\\[(\\d+)\\]\\[(\\d+)\\](.*)$');
+                _status  := _tally[1];
+                _count   := _tally[2]::integer;
+                _success := _tally[3]::integer;
+                _failure := _tally[4]::integer;
+                _scores  := _tally[5]::dis.score[];
+                IF _status = 'NONE' THEN
+                    _summary := 'Test failed to properly report results';
+                ELSEIF _status = 'FAIL' THEN
+                    _summary := _failure::text ||  ' of ' || _count::text || ' assertions failed';
+                ELSEIF _plan <> _count THEN
+                    _status := 'FAIL';
+                    _summary := 'Test plan of ' || _plan::text || ' assertions not followed, ' || _count::text || ' assertions reported';
+                ELSE
+                    _summary := 'Success: ' || _success::text || ' of ' || _count::text || ' assertions passed';
+                END IF;
             ELSE
-                _summary := 'Success: ' || _success::text || ' of ' || _count::text || ' assertions passed';
+                _summary := SQLERRM;
             END IF;
-        ELSE
-            _summary := SQLERRM;
-        END IF;
-        INSERT INTO dis.result (name, schema, module, submodule, plan, status, tests, successes, failures, summary, detail) 
-            VALUES (test_name, test_schema, _test.module, _test.submodule, _test.plan, _status, _count, _success, _failure, _summary, _scores);
-        RETURN TRUE;
+            INSERT INTO dis.result (name, schema, module, submodule, plan, status, tests, successes, failures, summary, detail) 
+                VALUES (test_name, test_schema, _test.module, _test.submodule, _test.plan, _status, _count, _success, _failure, _summary, _scores);
+    END;
+    RETURN TRUE;
 END;
 $_$;
 
