@@ -52,21 +52,30 @@ ALTER TABLE ONLY result
 --
 
 CREATE TRIGGER t_50_modified
-    BEFORE INSERT OR UPDATE ON result
+    BEFORE INSERT ON result
     FOR EACH ROW
     EXECUTE PROCEDURE dis.modified();
 
+
 --
--- Name: result; Type: ACL; Schema: billing; Owner: postgres
+-- Name: t_90_history; Type: TRIGGER; Schema: dis; Owner: postgres
+--
+
+CREATE TRIGGER t_90_history
+    BEFORE INSERT ON result
+    FOR EACH ROW
+    EXECUTE PROCEDURE dis_history.result_saver();
+
+--
+-- Name: result; Type: ACL; Schema: dis; Owner: postgres
 --
 
 REVOKE ALL ON TABLE result FROM PUBLIC;
 REVOKE ALL ON TABLE result FROM postgres;
-GRANT ALL ON TABLE result TO postgres;
+GRANT SELECT,INSERT,DELETE,TRUNCATE,REFERENCES,TRIGGER ON TABLE result TO postgres;
 GRANT SELECT,INSERT,DELETE ON TABLE result TO PUBLIC;
 
 
 --
 -- PostgreSQL database dump complete
 --
-    
