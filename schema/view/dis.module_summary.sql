@@ -16,13 +16,13 @@ SET search_path = dis, pg_catalog;
 --
 
 CREATE OR REPLACE VIEW module_summary AS
-    SELECT schema, module, count(name) AS tests, dis.status_agg(status), SUM(plan) AS plan, SUM(tests) AS run, SUM(successes) AS successes, SUM(failures) AS failures FROM dis.result GROUP BY schema, module;
+    SELECT result.schema, result.module, count(result.name) AS tests, status_agg(result.status) AS status_agg, sum(result.plan) AS plan, sum(result.tests) AS run, sum(result.successes) AS successes, sum(result.failures) AS failures FROM result GROUP BY result.schema, result.module;
 
 
 ALTER TABLE dis.module_summary OWNER TO postgres;
 
 --
--- Name: TABLE module_summary; Type: COMMENT; Schema: cod; Owner: postgres
+-- Name: VIEW module_summary; Type: COMMENT; Schema: dis; Owner: postgres
 --
 
 COMMENT ON VIEW module_summary IS 'DR: Summary of test results by schema module (2012-03-16)';
@@ -41,3 +41,4 @@ GRANT SELECT ON TABLE module_summary TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
+

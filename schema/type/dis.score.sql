@@ -16,8 +16,8 @@ SET search_path = dis, pg_catalog;
 --
 
 CREATE TYPE score AS (
-    status text,
-    message text
+	status text,
+	message text
 );
 
 
@@ -33,3 +33,4 @@ COMMENT ON TYPE score IS 'Assertion test output (2012-03-14)';
 --
 -- PostgreSQL database dump complete
 --
+

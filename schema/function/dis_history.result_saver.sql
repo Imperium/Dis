@@ -16,9 +16,8 @@ SET search_path = dis_history, pg_catalog;
 --
 
 CREATE OR REPLACE FUNCTION result_saver() RETURNS trigger
-    LANGUAGE plpgsql
-    SECURITY DEFINER
-    AS $_$
+    LANGUAGE plpgsql SECURITY DEFINER
+    AS $$
 /*  Function:     dis_history.result_saver()
     Description:  Saves each insert in history table
     Affects:      Records each test result in the history table
@@ -30,7 +29,7 @@ BEGIN
     INSERT INTO dis_history.result VALUES ((NEW).*);
     RETURN NEW;
 END;
-$_$;
+$$;
 
 
 ALTER FUNCTION dis_history.result_saver() OWNER TO postgres;
@@ -45,3 +44,4 @@ COMMENT ON FUNCTION result_saver() IS 'Saves each insert in history table (2012-
 --
 -- PostgreSQL database dump complete
 --
+

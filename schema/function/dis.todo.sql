@@ -12,10 +12,10 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: todo(message text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: todo(text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION todo(message text DEFAULT 'Test Placeholder') RETURNS dis.score
+CREATE OR REPLACE FUNCTION todo(message text DEFAULT 'Test Placeholder'::text) RETURNS score
     LANGUAGE sql
     AS $_$
 /*  Function:     dis.todo(message text DEFAULT 'Test Placeholder')
@@ -40,3 +40,4 @@ COMMENT ON FUNCTION todo(message text) IS 'DR: Placdholder for a real test to be
 --
 -- PostgreSQL database dump complete
 --
+

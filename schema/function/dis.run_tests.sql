@@ -12,12 +12,12 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: run_tests(test_schema text, test_module text, test_submodule text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: run_tests(text, text, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION run_tests(test_schema text DEFAULT NULL, test_module text DEFAULT NULL, test_submodule text DEFAULT NULL) RETURNS boolean
+CREATE OR REPLACE FUNCTION run_tests(test_schema text DEFAULT NULL::text, test_module text DEFAULT NULL::text, test_submodule text DEFAULT NULL::text) RETURNS boolean
     LANGUAGE plpgsql
-    AS $_$
+    AS $$
 /*  Function:     dis.run_tests(test_schema text, test_module text, test_submodule text)
     Description:  Run the specified tests
     Affects:      Executes
@@ -50,7 +50,7 @@ BEGIN
     END IF;
     RETURN TRUE;
 END;
-$_$;
+$$;
 
 
 ALTER FUNCTION dis.run_tests(test_schema text, test_module text, test_submodule text) OWNER TO postgres;
@@ -65,3 +65,4 @@ COMMENT ON FUNCTION run_tests(test_schema text, test_module text, test_submodule
 --
 -- PostgreSQL database dump complete
 --
+

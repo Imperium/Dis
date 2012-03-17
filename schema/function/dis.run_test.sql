@@ -12,7 +12,7 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: run_test(test_schema text, test_name text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: run_test(text, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION run_test(test_schema text, test_name text) RETURNS boolean
@@ -86,3 +86,4 @@ COMMENT ON FUNCTION run_test(test_schema text, test_name text) IS 'DR: Run a tes
 --
 -- PostgreSQL database dump complete
 --
+

@@ -12,12 +12,12 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: assert(assertion boolean, message text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: assert(boolean, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION assert(assertion boolean, message text DEFAULT '') RETURNS dis.score 
+CREATE OR REPLACE FUNCTION assert(assertion boolean, message text DEFAULT ''::text) RETURNS score
     LANGUAGE plpgsql
-    AS $_$
+    AS $$
 /*  Function:     dis.assert(assertion boolean, message text DEFAULT '')
     Description:  Validate a test assertion
     Affects:      nothing
@@ -28,14 +28,15 @@ CREATE OR REPLACE FUNCTION assert(assertion boolean, message text DEFAULT '') RE
 DECLARE
     _state      text := 'FAIL';
     _message    text := COALESCE(message, '');
+    _score      dis.score;
 BEGIN
     IF assertion IS NOT DISTINCT FROM TRUE THEN
-        state := 'OK';
+        _state := 'OK';
     END IF;
-
-    RETURN (_state, _message)::dis.score;
+    _score := (_state, _message)::dis.score;
+    RETURN _score;
 END;
-$_$;
+$$;
 
 
 ALTER FUNCTION dis.assert(assertion boolean, message text) OWNER TO postgres;
@@ -50,3 +51,4 @@ COMMENT ON FUNCTION assert(assertion boolean, message text) IS 'Validate a test 
 --
 -- PostgreSQL database dump complete
 --
+

@@ -12,13 +12,12 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: tally(tallies dis.score[]); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: tally(score[]); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION tally(tallies dis.score[]) RETURNS void
-    IMMUTABLE
-    LANGUAGE plpgsql
-    AS $_$
+CREATE OR REPLACE FUNCTION tally(tallies score[]) RETURNS void
+    LANGUAGE plpgsql IMMUTABLE
+    AS $$
 /*  Function:     dis.tally(tallies dis.score[])
     Description:  Tally scores and throws exception for test reporting
     Affects:      nothing
@@ -46,18 +45,19 @@ BEGIN
     END LOOP;
     RAISE EXCEPTION '[%][%][%][%]%', _state, _count, _success, _failure, tallies::text;
 END;
-$_$;
+$$;
 
 
-ALTER FUNCTION dis.tally(tallies dis.score[]) OWNER TO postgres;
+ALTER FUNCTION dis.tally(tallies score[]) OWNER TO postgres;
 
 --
--- Name: FUNCTION tally(tallies dis.score[]); Type: COMMENT; Schema: dis; Owner: postgres
+-- Name: FUNCTION tally(tallies score[]); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION tally(tallies dis.score[]) IS 'Tally scores for test reporting (2012-03-14)';
+COMMENT ON FUNCTION tally(tallies score[]) IS 'Tally scores for test reporting (2012-03-14)';
 
 
 --
 -- PostgreSQL database dump complete
 --
+

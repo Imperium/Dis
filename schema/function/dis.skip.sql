@@ -12,10 +12,10 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: skip(message text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: skip(text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION skip(message text) RETURNS dis.score
+CREATE OR REPLACE FUNCTION skip(message text) RETURNS score
     LANGUAGE sql
     AS $_$
 /*  Function:     dis.skip(message text DEFAULT 'Skipped Test')
@@ -34,9 +34,10 @@ ALTER FUNCTION dis.skip(message text) OWNER TO postgres;
 -- Name: FUNCTION skip(message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION skip(message text) IS 'DR: Return a test skip score (2012-03-15)';
+COMMENT ON FUNCTION skip(message text) IS 'Return a test skip score (2012-03-15)';
 
 
 --
 -- PostgreSQL database dump complete
 --
+

@@ -17,9 +17,7 @@ SET search_path = dis_test, pg_catalog;
 
 CREATE OR REPLACE FUNCTION test_alpha() RETURNS void
     LANGUAGE plpgsql
-    VOLATILE
-    SECURITY INVOKER
-    AS $_$
+    AS $$
 -- module: example
 -- submodule: basic
 -- plan: 3
@@ -33,7 +31,8 @@ BEGIN
     ];
     PERFORM dis.tally(_scores);
 END;
-$_$;
+$$;
+
 
 ALTER FUNCTION dis_test.test_alpha() OWNER TO postgres;
 
@@ -47,3 +46,4 @@ COMMENT ON FUNCTION test_alpha() IS 'Demo test (2012-03-15)';
 --
 -- PostgreSQL database dump complete
 --
+

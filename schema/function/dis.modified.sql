@@ -17,7 +17,7 @@ SET search_path = dis, pg_catalog;
 
 CREATE OR REPLACE FUNCTION modified() RETURNS trigger
     LANGUAGE plpgsql
-    AS $_$
+    AS $$
 /*  Function:     dis.modified()
     Description:  Properly set modified_at modified_by
     Affects:      Active record
@@ -30,7 +30,7 @@ BEGIN
     NEW.modified_by := CURRENT_USER;
     RETURN NEW;
 END;
-$_$;
+$$;
 
 
 ALTER FUNCTION dis.modified() OWNER TO postgres;
@@ -45,3 +45,4 @@ COMMENT ON FUNCTION modified() IS 'Properly set modified_at modified_by (2012-03
 --
 -- PostgreSQL database dump complete
 --
+

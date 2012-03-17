@@ -12,12 +12,12 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: status_test(initial_value text, next_value text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: status_test(text, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION status_test(initial_value text, next_value text) RETURNS text
     LANGUAGE plpgsql
-    AS $_$
+    AS $$
 /*  Function:     dis.status_test(initial_value text, next_value text)
     Description:  Determine state for dis.status_agg(text)
     Affects:      nothing
@@ -34,7 +34,7 @@ BEGIN
     END IF;
     RETURN 'OK';
 END;
-$_$;
+$$;
 
 
 ALTER FUNCTION dis.status_test(initial_value text, next_value text) OWNER TO postgres;
@@ -49,3 +49,4 @@ COMMENT ON FUNCTION status_test(initial_value text, next_value text) IS 'Determi
 --
 -- PostgreSQL database dump complete
 --
+
