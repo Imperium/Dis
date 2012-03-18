@@ -1,0 +1,31 @@
+#!/bin/bash
+basepath=$(dirname $0)
+targetpath='sql/transition'
+localpath='sql/local'
+fileprefix='dis'
+filename=${fileprefix}_${1}.sql
+checkfrom=$2
+if [[ checkfrom="" ]]; then
+    checkfrom=v0.0.0
+fi
+checkto=$3
+if [[ checkto="" ]]; then
+    checkto=HEAD
+fi
+cd $basepath/..
+
+if [[ -e $targetpath && ! -d $targetpath ]]; then
+    echo "Target directory for the transition script is a file"
+    exit
+elif [[ ! -e $targetpath ]]; then
+    echo "Creating target directory for the transition script"
+    mkdir -p $targetpath
+fi
+echo -e "BEGIN;\n\n" > $targetpath/$filename
+if [[ -e $localpath/$filename ]]; then
+    cat $localpath/$filename >> $targetpath/$filename
+fi
+for file in `git diff --name-only $checkfrom $checkto | grep 'schema/function'` ; do
+    cat $file >> $targetpath/$filename
+done
+echo -e "\n\nCOMMIT;" >> $targetpath/$filename
