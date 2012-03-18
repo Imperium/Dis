@@ -57,11 +57,11 @@ BEGIN
                     _summary := 'Test failed to properly report results';
                 ELSEIF _status = 'FAIL' THEN
                     _summary := _failure::text ||  ' of ' || _count::text || ' assertions failed';
-                ELSEIF _plan <> _count THEN
+                ELSEIF _test.plan <> _count THEN
                     _status := 'FAIL';
-                    _summary := 'Test plan of ' || _plan::text || ' assertions not followed, ' || _count::text || ' assertions reported';
+                    _summary := 'Test plan of ' || _test.plan::text || ' assertions not followed, ' || _count::text || ' assertions reported';
                 ELSE
-                    _summary := 'Success: ' || _success::text || ' of ' || _count::text || ' assertions passed';
+                    _summary := _success::text || ' of ' || _count::text || ' assertions passed';
                 END IF;
             ELSE
                 _summary := SQLERRM;

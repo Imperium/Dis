@@ -29,21 +29,21 @@ CREATE OR REPLACE FUNCTION run_tests(test_schema text DEFAULT NULL::text, test_m
 DECLARE
 BEGIN
     IF test_schema IS NULL THEN
-        DELETE FROM dis.test;
+        DELETE FROM dis.result;
         PERFORM dis.run_test(schema, name) FROM dis.test
             ORDER BY schema, module, submodule, name;
     ELSEIF test_module IS NULL THEN
-        DELETE FROM dis.test WHERE schema = test_schema;
+        DELETE FROM dis.result WHERE schema = test_schema;
         PERFORM dis.run_test(schema, name) FROM dis.test
             WHERE schema = test_schema
             ORDER BY schema, module, submodule, name;
     ELSEIF test_submodule IS NULL THEN
-        DELETE FROM dis.test WHERE schema = test_schema AND module = test_module
+        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module
         PERFORM dis.run_test(schema, name) FROM dis.test
             WHERE schema = test_schema AND module = test_module
             ORDER BY schema, module, submodule, name;
     ELSE
-        DELETE FROM dis.test WHERE schema = test_schema AND module = test_module AND submodule = test_submodule
+        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module AND submodule = test_submodule
         PERFORM dis.run_test(schema, name) FROM dis.test
             WHERE schema = test_schema AND module = test_module AND submodule = test_submodule
             ORDER BY schema, module, submodule, name;
