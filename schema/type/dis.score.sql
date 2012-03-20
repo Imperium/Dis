@@ -17,7 +17,8 @@ SET search_path = dis, pg_catalog;
 
 CREATE TYPE score AS (
 	status text,
-	message text
+	message text,
+	detail text[]
 );
 
 
@@ -27,7 +28,7 @@ ALTER TYPE dis.score OWNER TO postgres;
 -- Name: TYPE score; Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON TYPE score IS 'Assertion test output (2012-03-14)';
+COMMENT ON TYPE score IS 'Assertion test output (2012-03-19)';
 
 
 --

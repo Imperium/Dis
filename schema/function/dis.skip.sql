@@ -24,7 +24,7 @@ CREATE OR REPLACE FUNCTION skip(message text) RETURNS score
     Arguments:    message text DEFAULT 'Skipped Test': Message to include in the dis.score
     Returns:      dis.score
 */
-    SELECT ('SKIP', $1)::dis.score;
+    SELECT ('SKIP', $1, '{}'::text[])::dis.score;
 $_$;
 
 

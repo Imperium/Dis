@@ -42,7 +42,12 @@ CREATE OR REPLACE FUNCTION test_report_xml(test_schema text, test_name text) RET
             (SELECT xmlagg(
                 xmlelement(name "Assertion",
                     xmlelement(name "Status", status),
-                    xmlelement(name "Message", message)
+                    xmlelement(name "Message", message),
+                    xmlelement(name "Details",
+                        (SELECT xmlagg(
+                            xmlelement(name "Detail", d)
+                        ) FROM (SELECT unnest(detail) AS d) AS bar)
+                    )
                 )
             ) FROM (SELECT (unnest(detail)).*) AS foo)
         )

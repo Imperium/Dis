@@ -63,6 +63,16 @@ COMMENT ON FUNCTION run_tests(test_schema text, test_module text, test_submodule
 
 
 --
+-- Name: run_tests(text, text, text); Type: ACL; Schema: dis; Owner: postgres
+--
+
+REVOKE ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) FROM PUBLIC;
+REVOKE ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) FROM postgres;
+GRANT ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) TO postgres;
+GRANT ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) TO PUBLIC;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
