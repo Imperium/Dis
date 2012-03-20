@@ -4,6 +4,7 @@ targetpath='sql/transition'
 localpath='sql/local'
 fileprefix='dis'
 filename=${fileprefix}_${1}.sql
+postname=${fileprefix}_${1}_post.sql
 checkfrom=$2
 if [[ checkfrom="" ]]; then
     checkfrom=v0.0.0
@@ -28,4 +29,7 @@ fi
 for file in `git diff --name-only $checkfrom $checkto | grep 'schema/function'` ; do
     cat $file >> $targetpath/$filename
 done
+if [[ -e $localpath/$postname ]]; then
+    cat $localpath/$postname >> $targetpath/$filename
+fi
 echo -e "\n\nCOMMIT;" >> $targetpath/$filename

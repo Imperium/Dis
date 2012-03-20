@@ -24,7 +24,7 @@ CREATE OR REPLACE FUNCTION todo(message text DEFAULT 'Test Placeholder'::text) R
     Arguments:    message text: Message to include
     Returns:      dis.score
 */
-    SELECT ('TODO', $1)::dis.score;
+    SELECT ('TODO', $1, '{}'::text[])::dis.score;
 $_$;
 
 
