@@ -42,6 +42,16 @@ COMMENT ON FUNCTION test_epsilon() IS 'Demo test (2012-03-15)';
 
 
 --
+-- Name: test_epsilon(); Type: ACL; Schema: dis_test; Owner: postgres
+--
+
+REVOKE ALL ON FUNCTION test_epsilon() FROM PUBLIC;
+REVOKE ALL ON FUNCTION test_epsilon() FROM postgres;
+GRANT ALL ON FUNCTION test_epsilon() TO postgres;
+GRANT ALL ON FUNCTION test_epsilon() TO PUBLIC;
+
+
+--
 -- PostgreSQL database dump complete
 --
 
