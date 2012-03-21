@@ -12,13 +12,13 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: notsame(anyelement, anyelement, text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: not_same(anyelement, anyelement, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION notsame(have anyelement, notwant anyelement, message text DEFAULT ''::text) RETURNS score
+CREATE OR REPLACE FUNCTION not_same(have anyelement, notwant anyelement, message text DEFAULT ''::text) RETURNS score
     LANGUAGE sql IMMUTABLE
     AS $_$
-/*  Function:     dis.notsame(have anyelement, want anyelement, message text DEFAULT '')
+/*  Function:     dis.not_same(have anyelement, want anyelement, message text DEFAULT '')
     Description:  Test if have is distinct from want
                   *NOTE* "have" and "notwant" must be of the same type
     Affects:      nothing
@@ -38,13 +38,13 @@ CREATE OR REPLACE FUNCTION notsame(have anyelement, notwant anyelement, message 
 $_$;
 
 
-ALTER FUNCTION dis.notsame(have anyelement, notwant anyelement, message text) OWNER TO postgres;
+ALTER FUNCTION dis.not_same(have anyelement, notwant anyelement, message text) OWNER TO postgres;
 
 --
--- Name: FUNCTION notsame(have anyelement, notwant anyelement, message text); Type: COMMENT; Schema: dis; Owner: postgres
+-- Name: FUNCTION not_same(have anyelement, notwant anyelement, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION notsame(have anyelement, notwant anyelement, message text) IS 'Test if have is distinct from want (2012-03-20)';
+COMMENT ON FUNCTION not_same(have anyelement, notwant anyelement, message text) IS 'Test if have is distinct from want (2012-03-20)';
 
 
 --
