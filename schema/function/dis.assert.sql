@@ -22,9 +22,9 @@ CREATE OR REPLACE FUNCTION assert(assertion boolean, message text DEFAULT ''::te
     Description:  Validate a test assertion
     Affects:      nothing
     Arguments:    assertion (boolean): result of assertion
-                  message (text): descrition of the test
-                  detail (text[]): array of text with detail on the test performed
-    Returns:      text
+                  message (text): descrition of the test (optional)
+                  detail (text[]): array of text with detail on the test performed if FAIL (optional)
+    Returns:      dis.score
 */
 DECLARE
     _state      text := 'FAIL';
@@ -33,7 +33,8 @@ DECLARE
     _score      dis.score;
 BEGIN
     IF assertion IS NOT DISTINCT FROM TRUE THEN
-        _state := 'OK';
+        _state  := 'OK';
+        _detail := '{}'::text[];
     END IF;
     _score := (_state, _message, _detail)::dis.score;
     RETURN _score;
@@ -47,7 +48,7 @@ ALTER FUNCTION dis.assert(assertion boolean, message text, detail text[]) OWNER 
 -- Name: FUNCTION assert(assertion boolean, message text, detail text[]); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION assert(assertion boolean, message text, detail text[]) IS 'Validate a test assertion (2012-03-14)';
+COMMENT ON FUNCTION assert(assertion boolean, message text, detail text[]) IS 'Validate a test assertion (2012-03-19)';
 
 
 --
