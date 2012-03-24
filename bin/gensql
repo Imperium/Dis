@@ -26,7 +26,7 @@ echo -e "BEGIN;\n\n" > $targetpath/$filename
 if [[ -e $localpath/$filename ]]; then
     cat $localpath/$filename >> $targetpath/$filename
 fi
-for file in `git diff --name-only $checkfrom $checkto | grep 'schema/function'` ; do
+for file in `git diff --name-only $checkfrom $checkto | grep -e 'schema/[^/]*/function'` ; do
     cat $file >> $targetpath/$filename
 done
 if [[ -e $localpath/$postname ]]; then
