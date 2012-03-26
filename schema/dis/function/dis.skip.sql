@@ -15,16 +15,16 @@ SET search_path = dis, pg_catalog;
 -- Name: skip(text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION skip(message text) RETURNS score
+CREATE OR REPLACE FUNCTION skip(message text DEFAULT ''::text) RETURNS score
     LANGUAGE sql
     AS $_$
-/*  Function:     dis.skip(message text DEFAULT 'Skipped Test')
+/*  Function:     dis.skip(message text DEFAULT '')
     Description:  Return a test skip score
     Affects:      nothing
     Arguments:    message text DEFAULT 'Skipped Test': Message to include in the dis.score
     Returns:      dis.score
 */
-    SELECT ('SKIP', $1, '{}'::text[])::dis.score;
+    SELECT ('SKIP', COALESCE($1,''), '{}'::text[])::dis.score;
 $_$;
 
 
