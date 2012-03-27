@@ -15,15 +15,15 @@ SET search_path = dis, pg_catalog;
 -- Name: not_contains(anyarray, anyarray, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION not_contains(have anyarray, want anyarray, message text DEFAULT ''::text) RETURNS score
+CREATE OR REPLACE FUNCTION not_contains(have anyarray, notwant anyarray, message text DEFAULT ''::text) RETURNS score
     LANGUAGE sql IMMUTABLE
     AS $_$
-/*  Function:     dis.not_contains(have anyarray, want anyarray, message text DEFAULT ''::text)
-    Description:  Test to see if have does not contain the array of objects in want
-                  *NOTE* have and want must be of the same type
+/*  Function:     dis.not_contains(have anyarray, notwant anyarray, message text DEFAULT ''::text)
+    Description:  Test to see if have does not contain the array of objects in notwant
+                  *NOTE* have and notwant must be of the same type
     Affects:      nothing
     Arguments:    have (anyarray): Array to test
-                  want (anyarray): Array of values that should not be in have
+                  notwant (anyarray): Array of values that should not be in have
                   message (text): Message to include
     Returns:      dis.score
 */
@@ -38,21 +38,21 @@ CREATE OR REPLACE FUNCTION not_contains(have anyarray, want anyarray, message te
 $_$;
 
 
-ALTER FUNCTION dis.not_contains(have anyarray, want anyarray, message text) OWNER TO postgres;
+ALTER FUNCTION dis.not_contains(have anyarray, notwant anyarray, message text) OWNER TO postgres;
 
 --
 -- Name: not_contains(anyarray, anynonarray, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION not_contains(have anyarray, want anynonarray, message text DEFAULT ''::text) RETURNS score
+CREATE OR REPLACE FUNCTION not_contains(have anyarray, notwant anynonarray, message text DEFAULT ''::text) RETURNS score
     LANGUAGE sql IMMUTABLE
     AS $_$
-/*  Function:     dis.not_contains(have anyarray, want anyarray, message text DEFAULT ''::text)
-    Description:  Test to see if have does not contain want
-                  *NOTE* have must be an array of the want type
+/*  Function:     dis.not_contains(have anyarray, notwant anyarray, message text DEFAULT ''::text)
+    Description:  Test to see if have does not contain notwant
+                  *NOTE* have must be an array of the notwant type
     Affects:      nothing
     Arguments:    have (anyarray): Array to test
-                  want (anynonarray): Value that should not be in have
+                  notwant (anynonarray): Value that should not be in have
                   message (text): Message to include
     Returns:      dis.score
 */
@@ -67,20 +67,20 @@ CREATE OR REPLACE FUNCTION not_contains(have anyarray, want anynonarray, message
 $_$;
 
 
-ALTER FUNCTION dis.not_contains(have anyarray, want anynonarray, message text) OWNER TO postgres;
+ALTER FUNCTION dis.not_contains(have anyarray, notwant anynonarray, message text) OWNER TO postgres;
 
 --
--- Name: FUNCTION not_contains(have anyarray, want anyarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
+-- Name: FUNCTION not_contains(have anyarray, notwant anyarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION not_contains(have anyarray, want anyarray, message text) IS 'DR: Test to see if have does not contain the array of objects in want (2012-03-23)';
+COMMENT ON FUNCTION not_contains(have anyarray, notwant anyarray, message text) IS 'DR: Test to see if have does not contain the array of objects in notwant (2012-03-23)';
 
 
 --
--- Name: FUNCTION not_contains(have anyarray, want anynonarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
+-- Name: FUNCTION not_contains(have anyarray, notwant anynonarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION not_contains(have anyarray, want anynonarray, message text) IS 'DR: Test to see if have does not contain want (2012-03-23)';
+COMMENT ON FUNCTION not_contains(have anyarray, notwant anynonarray, message text) IS 'DR: Test to see if have does not contain notwant (2012-03-23)';
 
 
 --
