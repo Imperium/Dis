@@ -15,16 +15,16 @@ SET search_path = dis, pg_catalog;
 -- Name: todo(text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION todo(message text DEFAULT 'Test Placeholder'::text) RETURNS score
+CREATE OR REPLACE FUNCTION todo(message text DEFAULT ''::text) RETURNS score
     LANGUAGE sql
     AS $_$
-/*  Function:     dis.todo(message text DEFAULT 'Test Placeholder')
+/*  Function:     dis.todo(message text DEFAULT '')
     Description:  Placdholder for a real test to be added later
     Affects:      nothing
     Arguments:    message text: Message to include
     Returns:      dis.score
 */
-    SELECT ('TODO', $1, '{}'::text[])::dis.score;
+    SELECT ('TODO', COALESCE($1,''), '{}'::text[])::dis.score;
 $_$;
 
 

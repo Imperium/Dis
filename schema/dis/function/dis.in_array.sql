@@ -28,7 +28,7 @@ CREATE OR REPLACE FUNCTION in_array(have anyarray, want anyarray, message text D
     Returns:      dis.score
 */
     SELECT dis.assert(
-        $1 @> $2,
+        $1 <@ $2,
         $3,
         ARRAY[
             ('have: ' || COALESCE($1::text, 'NULL') || ' (' || pg_typeof($1) || ')'),
@@ -57,7 +57,7 @@ CREATE OR REPLACE FUNCTION in_array(have anynonarray, want anyarray, message tex
     Returns:      dis.score
 */
     SELECT dis.assert(
-        $1 @> ARRAY[$2],
+        ARRAY[$1] <@ $2,
         $3,
         ARRAY[
             ('have: ' || COALESCE($1::text, 'NULL') || ' (' || pg_typeof($1) || ')'),
