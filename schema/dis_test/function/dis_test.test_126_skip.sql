@@ -21,7 +21,7 @@ CREATE OR REPLACE FUNCTION test_126_skip() RETURNS void
 -- description: Ensure dis.skip works as expected
 -- plan: 3
 -- module: assertions
--- submodule: simple
+-- submodule: faux
 DECLARE
     _scores     dis.score[];
 BEGIN

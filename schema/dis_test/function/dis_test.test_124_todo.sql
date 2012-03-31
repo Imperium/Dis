@@ -21,7 +21,7 @@ CREATE OR REPLACE FUNCTION test_124_todo() RETURNS void
 -- description: Ensure dis.todo functions as expected
 -- plan: 3
 -- module: assertions
--- submodule: simple
+-- submodule: faux
 DECLARE
     _scores     dis.score[];
 BEGIN

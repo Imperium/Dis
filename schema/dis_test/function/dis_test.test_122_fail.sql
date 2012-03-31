@@ -21,7 +21,7 @@ CREATE OR REPLACE FUNCTION test_122_fail() RETURNS void
 -- description: Ensure dis.fail functions as expected
 -- plan: 3
 -- module: assertions
--- submodule: simple
+-- submodule: faux
 DECLARE
     _scores     dis.score[];
 BEGIN
