@@ -27,7 +27,7 @@ CREATE OR REPLACE FUNCTION no_imatch(have text, regex text, message text DEFAULT
     Returns:      dis.score
 */
     SELECT dis.assert(
-        $1 !~ $2,
+        $1 !~* $2,
         $3,
         ARRAY[
             ('have: ' || COALESCE($1::text, 'NULL')),
