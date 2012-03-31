@@ -28,7 +28,7 @@ CREATE OR REPLACE FUNCTION not_in_array(have anyarray, notwant anyarray, message
     Returns:      dis.score
 */
     SELECT dis.assert(
-        $1 @> $2,
+        NOT $1 <@ $2,
         $3,
         ARRAY[
             ('have: ' || COALESCE($1::text, 'NULL') || ' (' || pg_typeof($1) || ')'),
@@ -57,7 +57,7 @@ CREATE OR REPLACE FUNCTION not_in_array(have anynonarray, notwant anyarray, mess
     Returns:      dis.score
 */
     SELECT dis.assert(
-        $1 @> ARRAY[$2],
+        NOT ARRAY[$1] <@ $2,
         $3,
         ARRAY[
             ('have: ' || COALESCE($1::text, 'NULL') || ' (' || pg_typeof($1) || ')'),
