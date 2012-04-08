@@ -12,13 +12,13 @@ SET escape_string_warning = off;
 SET search_path = dis_v1, pg_catalog;
 
 --
--- Name: test_report_xml(text, text); Type: FUNCTION; Schema: dis_v1; Owner: postgres
+-- Name: test_report_xml(text, text, boolean); Type: FUNCTION; Schema: dis_v1; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION test_report_xml(test_schema text, test_name text) RETURNS xml
+CREATE OR REPLACE FUNCTION test_report_xml(test_schema text, test_name text, detail boolean DEFAULT false) RETURNS xml
     LANGUAGE sql STABLE
     AS $_$
-/*  Function:     dis_v1.test_report_xml(test_schema text, test_name text)
+/*  Function:     dis_v1.test_report_xml(test_schema text,  test_name text, detail boolean DEFAULT FALSE)
     Description:  Return the current results of the specified test as XML
     Affects:      nothing
     Arguments:    test_schema (text): schema of the test
@@ -38,30 +38,33 @@ CREATE OR REPLACE FUNCTION test_report_xml(test_schema text, test_name text) RET
             xmlelement(name "Successes", successes),
             xmlelement(name "Failures", failures)
         ),
-        xmlelement(name "Assertions",
-            (SELECT xmlagg(
-                xmlelement(name "Assertion",
-                    xmlelement(name "Status", status),
-                    xmlelement(name "Message", message),
-                    xmlelement(name "Details",
-                        (SELECT xmlagg(
-                            xmlelement(name "Detail", d)
-                        ) FROM (SELECT unnest(detail) AS d) AS bar)
+        CASE WHEN $3 IS TRUE THEN
+            xmlelement(name "Assertions",
+                (SELECT xmlagg(
+                    xmlelement(name "Assertion",
+                        xmlelement(name "Status", status),
+                        xmlelement(name "Message", message),
+                        xmlelement(name "Details",
+                            (SELECT xmlagg(
+                                xmlelement(name "Detail", d)
+                            ) FROM (SELECT unnest(detail) AS d) AS bar)
+                        )
                     )
-                )
-            ) FROM (SELECT (unnest(detail)).*) AS foo)
-        )
+                ) FROM (SELECT (unnest(detail)).*) AS foo)
+            )
+            ELSE NULL
+        END
     ) FROM dis.result WHERE schema = $1 AND name = $2;
 $_$;
 
 
-ALTER FUNCTION dis_v1.test_report_xml(test_schema text, test_name text) OWNER TO postgres;
+ALTER FUNCTION dis_v1.test_report_xml(test_schema text, test_name text, detail boolean) OWNER TO postgres;
 
 --
--- Name: FUNCTION test_report_xml(test_schema text, test_name text); Type: COMMENT; Schema: dis_v1; Owner: postgres
+-- Name: FUNCTION test_report_xml(test_schema text, test_name text, detail boolean); Type: COMMENT; Schema: dis_v1; Owner: postgres
 --
 
-COMMENT ON FUNCTION test_report_xml(test_schema text, test_name text) IS 'Return the current results of the specified test as XML (2012-03-16)';
+COMMENT ON FUNCTION test_report_xml(test_schema text, test_name text, detail boolean) IS 'Return the current results of the specified test as XML (2012-03-16)';
 
 
 --
