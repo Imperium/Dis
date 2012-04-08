@@ -25,7 +25,7 @@ ALTER TABLE dis.submodule_summary OWNER TO postgres;
 -- Name: VIEW submodule_summary; Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON VIEW submodule_summary IS 'DR: Summary of test results by schema module submodule (2012-03-16)';
+COMMENT ON VIEW submodule_summary IS 'Summary of test results by schema module submodule (2012-03-16)';
 
 
 --

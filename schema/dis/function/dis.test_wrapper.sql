@@ -39,7 +39,7 @@ ALTER FUNCTION dis.test_wrapper(schema text, name text) OWNER TO postgres;
 -- Name: FUNCTION test_wrapper(schema text, name text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION test_wrapper(schema text, name text) IS 'DR: Test wrapper to ensure an exception is thrown (2012-03-15)';
+COMMENT ON FUNCTION test_wrapper(schema text, name text) IS 'Test wrapper to ensure an exception is thrown (2012-03-15)';
 
 
 --

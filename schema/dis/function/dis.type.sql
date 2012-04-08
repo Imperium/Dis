@@ -43,7 +43,7 @@ ALTER FUNCTION dis.type(have anyelement, want regtype, message text) OWNER TO po
 -- Name: FUNCTION type(have anyelement, want regtype, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION type(have anyelement, want regtype, message text) IS 'DR: Check if have is the provided regtype (2012-03-20)';
+COMMENT ON FUNCTION type(have anyelement, want regtype, message text) IS 'Check if have is the provided regtype (2012-03-20)';
 
 
 --

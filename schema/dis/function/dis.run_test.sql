@@ -80,7 +80,7 @@ ALTER FUNCTION dis.run_test(test_schema text, test_name text) OWNER TO postgres;
 -- Name: FUNCTION run_test(test_schema text, test_name text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION run_test(test_schema text, test_name text) IS 'DR: Run a test and record the results (2012-03-15)';
+COMMENT ON FUNCTION run_test(test_schema text, test_name text) IS 'Run a test and record the results (2012-03-15)';
 
 
 --

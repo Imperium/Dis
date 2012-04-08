@@ -34,7 +34,7 @@ ALTER FUNCTION dis.ok(message text) OWNER TO postgres;
 -- Name: FUNCTION ok(message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION ok(message text) IS 'DR: Return an ok score (2012-03-21)';
+COMMENT ON FUNCTION ok(message text) IS 'Return an ok score (2012-03-21)';
 
 
 --

@@ -34,7 +34,7 @@ ALTER FUNCTION dis.todo(message text) OWNER TO postgres;
 -- Name: FUNCTION todo(message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION todo(message text) IS 'DR: Placdholder for a real test to be added later (2012-03-15)';
+COMMENT ON FUNCTION todo(message text) IS 'Placdholder for a real test to be added later (2012-03-15)';
 
 
 --

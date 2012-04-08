@@ -73,14 +73,14 @@ ALTER FUNCTION dis.contains(have anyarray, want anynonarray, message text) OWNER
 -- Name: FUNCTION contains(have anyarray, want anyarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION contains(have anyarray, want anyarray, message text) IS 'DR: Test to see if have contains the array of objects in want (2012-03-23)';
+COMMENT ON FUNCTION contains(have anyarray, want anyarray, message text) IS 'Test to see if have contains the array of objects in want (2012-03-23)';
 
 
 --
 -- Name: FUNCTION contains(have anyarray, want anynonarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION contains(have anyarray, want anynonarray, message text) IS 'DR: Test to see if have contains want (2012-03-23)';
+COMMENT ON FUNCTION contains(have anyarray, want anynonarray, message text) IS 'Test to see if have contains want (2012-03-23)';
 
 
 --

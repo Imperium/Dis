@@ -43,7 +43,7 @@ ALTER FUNCTION dis.no_match(have text, regex text, message text) OWNER TO postgr
 -- Name: FUNCTION no_match(have text, regex text, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION no_match(have text, regex text, message text) IS 'DR: Test if have does not match regex (2012-03-23)';
+COMMENT ON FUNCTION no_match(have text, regex text, message text) IS 'Test if have does not match regex (2012-03-23)';
 
 
 --

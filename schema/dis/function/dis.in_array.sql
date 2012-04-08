@@ -73,14 +73,14 @@ ALTER FUNCTION dis.in_array(have anynonarray, want anyarray, message text) OWNER
 -- Name: FUNCTION in_array(have anyarray, want anyarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION in_array(have anyarray, want anyarray, message text) IS 'DR: Test to see if have elements are contained by want (2012-03-23)';
+COMMENT ON FUNCTION in_array(have anyarray, want anyarray, message text) IS 'Test to see if have elements are contained by want (2012-03-23)';
 
 
 --
 -- Name: FUNCTION in_array(have anynonarray, want anyarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION in_array(have anynonarray, want anyarray, message text) IS 'DR: Test to see if have is contained by want (2012-03-23)';
+COMMENT ON FUNCTION in_array(have anynonarray, want anyarray, message text) IS 'Test to see if have is contained by want (2012-03-23)';
 
 
 --

@@ -25,7 +25,7 @@ ALTER TABLE dis.schema_summary OWNER TO postgres;
 -- Name: VIEW schema_summary; Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON VIEW schema_summary IS 'DR: Summary of schema test results (2012-03-16)';
+COMMENT ON VIEW schema_summary IS 'Summary of schema test results (2012-03-16)';
 
 
 --

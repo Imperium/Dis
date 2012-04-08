@@ -43,7 +43,7 @@ ALTER FUNCTION dis.greater_equal(have anyelement, want anyelement, message text)
 -- Name: FUNCTION greater_equal(have anyelement, want anyelement, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION greater_equal(have anyelement, want anyelement, message text) IS 'DR: Test if have is greater than or equal to want (2012-03-21)';
+COMMENT ON FUNCTION greater_equal(have anyelement, want anyelement, message text) IS 'Test if have is greater than or equal to want (2012-03-21)';
 
 
 --

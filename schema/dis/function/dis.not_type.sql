@@ -43,7 +43,7 @@ ALTER FUNCTION dis.not_type(have anyelement, notwant regtype, message text) OWNE
 -- Name: FUNCTION not_type(have anyelement, notwant regtype, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION not_type(have anyelement, notwant regtype, message text) IS 'DR: Check if have is not the provided regtype (2012-03-20)';
+COMMENT ON FUNCTION not_type(have anyelement, notwant regtype, message text) IS 'Check if have is not the provided regtype (2012-03-20)';
 
 
 --

@@ -34,7 +34,7 @@ ALTER FUNCTION dis.fail(message text) OWNER TO postgres;
 -- Name: FUNCTION fail(message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION fail(message text) IS 'DR: Return a fail score (2012-03-21)';
+COMMENT ON FUNCTION fail(message text) IS 'Return a fail score (2012-03-21)';
 
 
 --

@@ -73,14 +73,14 @@ ALTER FUNCTION dis.not_in_array(have anynonarray, notwant anyarray, message text
 -- Name: FUNCTION not_in_array(have anyarray, notwant anyarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION not_in_array(have anyarray, notwant anyarray, message text) IS 'DR: Test to see if have elements are not contained by notwant (2012-03-23)';
+COMMENT ON FUNCTION not_in_array(have anyarray, notwant anyarray, message text) IS 'Test to see if have elements are not contained by notwant (2012-03-23)';
 
 
 --
 -- Name: FUNCTION not_in_array(have anynonarray, notwant anyarray, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION not_in_array(have anynonarray, notwant anyarray, message text) IS 'DR: Test to see if have is not contained by notwant (2012-03-23)';
+COMMENT ON FUNCTION not_in_array(have anynonarray, notwant anyarray, message text) IS 'Test to see if have is not contained by notwant (2012-03-23)';
 
 
 --

@@ -43,7 +43,7 @@ ALTER FUNCTION dis.less(have anyelement, want anyelement, message text) OWNER TO
 -- Name: FUNCTION less(have anyelement, want anyelement, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION less(have anyelement, want anyelement, message text) IS 'DR: Test if have is less than want (2012-03-21)';
+COMMENT ON FUNCTION less(have anyelement, want anyelement, message text) IS 'Test if have is less than want (2012-03-21)';
 
 
 --

@@ -43,7 +43,7 @@ ALTER FUNCTION dis.imatch(have text, regex text, message text) OWNER TO postgres
 -- Name: FUNCTION imatch(have text, regex text, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION imatch(have text, regex text, message text) IS 'DR: Test if have matches regex, case insensitive (2012-03-23)';
+COMMENT ON FUNCTION imatch(have text, regex text, message text) IS 'Test if have matches regex, case insensitive (2012-03-23)';
 
 
 --

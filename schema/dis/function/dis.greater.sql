@@ -43,7 +43,7 @@ ALTER FUNCTION dis.greater(have anyelement, want anyelement, message text) OWNER
 -- Name: FUNCTION greater(have anyelement, want anyelement, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION greater(have anyelement, want anyelement, message text) IS 'DR: Test if have is greater than want (2012-03-21)';
+COMMENT ON FUNCTION greater(have anyelement, want anyelement, message text) IS 'Test if have is greater than want (2012-03-21)';
 
 
 --

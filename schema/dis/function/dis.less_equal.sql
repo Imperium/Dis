@@ -43,7 +43,7 @@ ALTER FUNCTION dis.less_equal(have anyelement, want anyelement, message text) OW
 -- Name: FUNCTION less_equal(have anyelement, want anyelement, message text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION less_equal(have anyelement, want anyelement, message text) IS 'DR: Test if have is less than or equal to want (2012-03-21)';
+COMMENT ON FUNCTION less_equal(have anyelement, want anyelement, message text) IS 'Test if have is less than or equal to want (2012-03-21)';
 
 
 --

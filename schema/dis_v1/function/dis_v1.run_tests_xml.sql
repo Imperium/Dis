@@ -36,7 +36,7 @@ ALTER FUNCTION dis_v1.run_tests_xml(schema text, module text, submodule text) OW
 -- Name: FUNCTION run_tests_xml(schema text, module text, submodule text); Type: COMMENT; Schema: dis_v1; Owner: postgres
 --
 
-COMMENT ON FUNCTION run_tests_xml(schema text, module text, submodule text) IS 'DR: Run the specified tests (2012-04-08)';
+COMMENT ON FUNCTION run_tests_xml(schema text, module text, submodule text) IS 'Run the specified tests (2012-04-08)';
 
 
 --
