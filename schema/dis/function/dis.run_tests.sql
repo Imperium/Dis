@@ -38,12 +38,12 @@ BEGIN
             WHERE schema = test_schema
             ORDER BY schema, module, submodule, name;
     ELSEIF test_submodule IS NULL THEN
-        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module
+        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module;
         PERFORM dis.run_test(schema, name) FROM dis.test
             WHERE schema = test_schema AND module = test_module
             ORDER BY schema, module, submodule, name;
     ELSE
-        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module AND submodule = test_submodule
+        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module AND submodule = test_submodule;
         PERFORM dis.run_test(schema, name) FROM dis.test
             WHERE schema = test_schema AND module = test_module AND submodule = test_submodule
             ORDER BY schema, module, submodule, name;
