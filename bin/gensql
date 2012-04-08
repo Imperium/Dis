@@ -5,14 +5,17 @@ localpath='sql/local'
 fileprefix='dis'
 filename=${fileprefix}_${1}.sql
 postname=${fileprefix}_${1}_post.sql
-checkfrom=$2
-if [[ checkfrom="" ]]; then
+echo "Filename: $filename"
+checkfrom="$2"
+if [[ $checkfrom == "" ]]; then
     checkfrom=v0.0.0
 fi
-checkto=$3
-if [[ checkto="" ]]; then
+echo "Starting: $checkfrom"
+checkto="$3"
+if [[ $checkto == "" ]]; then
     checkto=HEAD
 fi
+echo "Ending:   $checkto"
 cd $basepath/..
 
 if [[ -e $targetpath && ! -d $targetpath ]]; then
@@ -26,7 +29,9 @@ echo -e "BEGIN;\n\n" > $targetpath/$filename
 if [[ -e $localpath/$filename ]]; then
     cat $localpath/$filename >> $targetpath/$filename
 fi
+echo "Checking: $checkfrom To: $checkto"
 for file in `git diff --name-only $checkfrom $checkto | grep -e 'schema/[^/]*/function'` ; do
+    echo "    including $file"
     cat $file >> $targetpath/$filename
 done
 if [[ -e $localpath/$postname ]]; then
