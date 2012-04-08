@@ -16,7 +16,7 @@ SET search_path = dis, pg_catalog;
 --
 
 CREATE OR REPLACE VIEW module_summary AS
-    SELECT result.schema, result.module, count(result.name) AS tests, status_agg(result.status) AS status_agg, sum(result.plan) AS plan, sum(result.tests) AS run, sum(result.successes) AS successes, sum(result.failures) AS failures FROM result GROUP BY result.schema, result.module;
+    SELECT result.schema, result.module, count(result.name) AS tests, status_agg(result.status) AS status, sum(result.plan) AS plan, sum(result.tests) AS run, sum(result.successes) AS successes, sum(result.failures) AS failures FROM result GROUP BY result.schema, result.module;
 
 
 ALTER TABLE dis.module_summary OWNER TO postgres;
