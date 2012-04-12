@@ -12,17 +12,17 @@ SET escape_string_warning = off;
 SET search_path = dis, pg_catalog;
 
 --
--- Name: raises(call text, want text, message text); Type: FUNCTION; Schema: dis; Owner: postgres
+-- Name: raises(text, text, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION raises(call text, want text DEFAULT NULL, message text DEFAULT '') RETURNS score
+CREATE OR REPLACE FUNCTION raises(call text, want text DEFAULT NULL::text, message text DEFAULT ''::text) RETURNS score
     LANGUAGE plpgsql
     AS $_$
-/*  Function:     dis.raises(call text, want text, message text)
+/*  Function:     dis.raises(call text, want text DEFAULT NULL, message text DEFAULT '')
     Description:  Test if "call" results in the error "want"
     Affects:      nothing
     Arguments:    call (text): SQL to execute
-                  want (text): SQLSTATE or SQLERRM expected if NULL any Error is a success (Optional)
+                  want (text): SQLSTATE (equal) or SQLERRM (match) expected if NULL any Error is a success (Optional)
                   message (text): Message to include (Optional)
     Returns:      dis.score
 */
@@ -43,7 +43,7 @@ BEGIN
         EXECUTE call;
     EXCEPTION
         WHEN OTHERS THEN
-            IF want IS NULL OR want = SQLSTATE OR want = SQLERRM THEN
+            IF want IS NULL OR SQLSTATE = _state OR SQLERRM ~* _errm THEN
                 _score := ('OK', message, '{}')::dis.score;
             ELSE
                 _score := (
@@ -52,7 +52,7 @@ BEGIN
                     ARRAY[
                         ('call: ' || call),
                         ('have: ' || SQLSTATE || '/' || SQLERRM || ' (SQLSTATE/SQLERRM)'),
-                        ('want: ' || COALESCE('SQLSTATE ' || _state, 'SQLERRM ' || _errm))
+                        ('want: ' || COALESCE(_state || ' (SQLSTATE)', _errm || ' (SQLERRM)', 'Any Error'))
                     ]
                 );
             END IF;
@@ -65,7 +65,7 @@ BEGIN
         ARRAY[
             ('call: ' || call),
             ('have: no error raised'),
-            ('want: ' || COALESCE('SQLSTATE ' || _state, 'SQLERRM ' || _errm, 'Any Error'))
+            ('want: ' || COALESCE(_state || ' (SQLSTATE)', _errm || ' (SQLERRM)', 'Any Error'))
         ]
     )::dis.score;
     RETURN _score;

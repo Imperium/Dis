@@ -43,12 +43,12 @@ BEGIN
         ),
         dis.same(
             dis.raises('select 5 >>= 0', 'division by zero'),
-            ('FAIL', '', '{"call: select 5 >>= 0","have: 42883/operator does not exist: integer >>= integer (SQLSTATE/SQLERRM)","want: SQLERRM division by zero"}')::dis.score,
+            ('FAIL', '', '{"call: select 5 >>= 0","have: 42883/operator does not exist: integer >>= integer (SQLSTATE/SQLERRM)","want: division by zero (SQLERRM)"}')::dis.score,
             'Raises: FAIL on wrong SQLERRM'
         ),
         dis.same(
             dis.raises('SELECT 5 / 0', '42883'),
-            ('FAIL', '', '{"call: SELECT 5 / 0","have: 22012/division by zero (SQLSTATE/SQLERRM)","want: SQLSTATE 42883"}')::dis.score,
+            ('FAIL', '', '{"call: SELECT 5 / 0","have: 22012/division by zero (SQLSTATE/SQLERRM)","want: 42883 (SQLSTATE)"}')::dis.score,
             'Raises: FAIL on wrong SQLSTATE'
         ),
         dis.same(
