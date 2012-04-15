@@ -20,7 +20,7 @@ CREATE OR REPLACE FUNCTION test_185_compare() RETURNS void
     AS $$
 -- description: Ensure dis.compare (mold version) works as expected
 -- plan: 4
--- module: assertion
+-- module: assertions
 -- submodule: compare
 DECLARE
     _scores     dis.score[];
