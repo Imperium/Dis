@@ -17,7 +17,7 @@ SET search_path = dis, pg_catalog;
 
 CREATE OR REPLACE FUNCTION test_wrapper(schema text, name text) RETURNS void
     LANGUAGE plpgsql
-    AS $$
+    AS $_$
 /*  Function:     dis.test_wrapper(schema text, name text)
     Description:  Test wrapper to ensure an exception is thrown
     Affects:      Executes provided function
@@ -26,11 +26,19 @@ CREATE OR REPLACE FUNCTION test_wrapper(schema text, name text) RETURNS void
     Returns:      void
 */
 DECLARE
+    _schema     text := schema;
+    _name       text := name;
 BEGIN
-    EXECUTE 'SELECT ' || quote_ident(schema) || '.' || quote_ident(name) || '()';
+    IF _schema !~* '_test$' THEN
+        _schema := _schema || '_test';
+    END IF;
+    IF _name !~* '^test_' THEN
+        _name := 'test_' || _name;
+    END IF;
+    EXECUTE 'SELECT ' || quote_ident(_schema) || '.' || quote_ident(_name) || '()';
     RAISE EXCEPTION '[NONE][0][0][0]{}';
 END;
-$$;
+$_$;
 
 
 ALTER FUNCTION dis.test_wrapper(schema text, name text) OWNER TO postgres;

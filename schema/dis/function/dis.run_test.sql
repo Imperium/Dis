@@ -15,16 +15,18 @@ SET search_path = dis, pg_catalog;
 -- Name: run_test(text, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION run_test(test_schema text, test_name text) RETURNS boolean
+CREATE OR REPLACE FUNCTION run_test(schema text, name text) RETURNS boolean
     LANGUAGE plpgsql
     AS $_$
-/*  Function:     dis.run_test(test_schema text, test_name text)
+/*  Function:     dis.run_test(schema text, name text)
     Description:  Run a test and record the results
     Affects:      
     Arguments:    
     Returns:      boolean
 */
 DECLARE
+    _schema     text        := schema;
+    _name       text        := name;
     _test       dis.test%ROWTYPE;
     _tally      text[];
     _status     text        := 'FAIL';
@@ -36,14 +38,20 @@ DECLARE
     _summary    text;
     _i          integer;
 BEGIN
-    SELECT * INTO _test FROM dis.test AS test WHERE test.schema = test_schema AND test.name = test_name;
-    IF _test.name IS NULL THEN
-        RAISE EXCEPTION 'Test %.% does not exist', test_schema, test_name;
+    IF _schema !~* '_test$' THEN
+        _schema := _schema || '_test';
     END IF;
-    DELETE FROM dis.result WHERE schema = test_schema AND name = test_name;
+    IF _name !~* '^test_' THEN
+        _name := 'test_' || _name;
+    END IF;
+    SELECT * INTO _test FROM dis.test AS test WHERE test.schema = _schema AND test.name = _name;
+    IF _test.name IS NULL THEN
+        RAISE EXCEPTION 'Test %.% does not exist', _schema, _name;
+    END IF;
+    DELETE FROM dis.result AS r WHERE r.schema = _schema AND r.name = _name;
 
     BEGIN
-        PERFORM dis.test_wrapper(test_schema, test_name);
+        PERFORM dis.test_wrapper(_schema, _name);
     EXCEPTION
         WHEN OTHERS THEN
             IF SQLSTATE = 'P0001' AND SQLERRM ~ E'^\\[(\\w+)\\]\\[(\\d+)\\]\\[(\\d+)\\]\\[(\\d+)\\](.*)$' THEN
@@ -67,20 +75,20 @@ BEGIN
                 _summary := SQLERRM;
             END IF;
             INSERT INTO dis.result (name, schema, module, submodule, plan, status, tests, successes, failures, summary, detail) 
-                VALUES (test_name, test_schema, _test.module, _test.submodule, _test.plan, _status, _count, _success, _failure, _summary, _scores);
+                VALUES (_name, _schema, _test.module, _test.submodule, _test.plan, _status, _count, _success, _failure, _summary, _scores);
     END;
     RETURN TRUE;
 END;
 $_$;
 
 
-ALTER FUNCTION dis.run_test(test_schema text, test_name text) OWNER TO postgres;
+ALTER FUNCTION dis.run_test(schema text, name text) OWNER TO postgres;
 
 --
--- Name: FUNCTION run_test(test_schema text, test_name text); Type: COMMENT; Schema: dis; Owner: postgres
+-- Name: FUNCTION run_test(schema text, name text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION run_test(test_schema text, test_name text) IS 'Run a test and record the results (2012-03-15)';
+COMMENT ON FUNCTION run_test(schema text, name text) IS 'Run a test and record the results (2012-03-15)';
 
 
 --

@@ -15,61 +15,67 @@ SET search_path = dis, pg_catalog;
 -- Name: run_tests(text, text, text); Type: FUNCTION; Schema: dis; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION run_tests(test_schema text DEFAULT NULL::text, test_module text DEFAULT NULL::text, test_submodule text DEFAULT NULL::text) RETURNS boolean
+CREATE OR REPLACE FUNCTION run_tests(schema text DEFAULT NULL::text, module text DEFAULT NULL::text, submodule text DEFAULT NULL::text) RETURNS boolean
     LANGUAGE plpgsql
-    AS $$
-/*  Function:     dis.run_tests(test_schema text, test_module text, test_submodule text)
+    AS $_$
+/*  Function:     dis.run_tests(schema text, module text, submodule text)
     Description:  Run the specified tests
     Affects:      Executes
-    Arguments:    test_schema (text): (Optional) Limit run to tests in this schema
-                  test_module (text): (Optional) Limit run to tests in this module
-                  test_submodule (text): (Optional) Limit run to tests in this submodule
+    Arguments:    schema (text): (Optional) Limit run to tests in this schema
+                  module (text): (Optional) Limit run to tests in this module
+                  submodule (text): (Optional) Limit run to tests in this submodule
     Returns:      boolean
 */
 DECLARE
+    _schema     text := schema;
+    _module     text := module;
+    _submodule  text := submodule;
 BEGIN
-    IF test_schema IS NULL THEN
-        DELETE FROM dis.result;
-        PERFORM dis.run_test(schema, name) FROM dis.test
-            ORDER BY schema, module, submodule, name;
-    ELSEIF test_module IS NULL THEN
-        DELETE FROM dis.result WHERE schema = test_schema;
-        PERFORM dis.run_test(schema, name) FROM dis.test
-            WHERE schema = test_schema
-            ORDER BY schema, module, submodule, name;
-    ELSEIF test_submodule IS NULL THEN
-        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module;
-        PERFORM dis.run_test(schema, name) FROM dis.test
-            WHERE schema = test_schema AND module = test_module
-            ORDER BY schema, module, submodule, name;
+    IF _schema !~* '_test$' THEN
+        _schema := _schema || '_test';
+    END IF;
+    IF _schema IS NULL THEN
+        DELETE FROM dis.result AS r;
+        PERFORM dis.run_test(test.schema, test.name) FROM dis.test AS test
+            ORDER BY test.schema, test.module, test.submodule, test.name;
+    ELSEIF module IS NULL THEN
+        DELETE FROM dis.result AS r WHERE r.schema = _schema;
+        PERFORM dis.run_test(test.schema, test.name) FROM dis.test AS test
+            WHERE test.schema = _schema
+            ORDER BY test.schema, test.module, test.submodule, test.name;
+    ELSEIF submodule IS NULL THEN
+        DELETE FROM dis.result AS r WHERE r.schema = _schema AND r.module = _module;
+        PERFORM dis.run_test(test.schema, test.name) FROM dis.test AS test
+            WHERE test.schema = _schema AND test.module = _module
+            ORDER BY test.schema, test.module, test.submodule, test.name;
     ELSE
-        DELETE FROM dis.result WHERE schema = test_schema AND module = test_module AND submodule = test_submodule;
-        PERFORM dis.run_test(schema, name) FROM dis.test
-            WHERE schema = test_schema AND module = test_module AND submodule = test_submodule
-            ORDER BY schema, module, submodule, name;
+        DELETE FROM dis.result AS r WHERE r.schema = _schema AND r.module = _module AND r.submodule = _submodule;
+        PERFORM dis.run_test(test.schema, test.name) FROM dis.test AS test
+            WHERE test.schema = _schema AND test.module = _module AND test.submodule = _submodule
+            ORDER BY test.schema, test.module, test.submodule, test.name;
     END IF;
     RETURN TRUE;
 END;
-$$;
+$_$;
 
 
-ALTER FUNCTION dis.run_tests(test_schema text, test_module text, test_submodule text) OWNER TO postgres;
+ALTER FUNCTION dis.run_tests(schema text, module text, submodule text) OWNER TO postgres;
 
 --
--- Name: FUNCTION run_tests(test_schema text, test_module text, test_submodule text); Type: COMMENT; Schema: dis; Owner: postgres
+-- Name: FUNCTION run_tests(schema text, module text, submodule text); Type: COMMENT; Schema: dis; Owner: postgres
 --
 
-COMMENT ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) IS 'Run the specified tests (2012-03-16)';
+COMMENT ON FUNCTION run_tests(schema text, module text, submodule text) IS 'Run the specified tests (2012-03-16)';
 
 
 --
 -- Name: run_tests(text, text, text); Type: ACL; Schema: dis; Owner: postgres
 --
 
-REVOKE ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) FROM PUBLIC;
-REVOKE ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) FROM postgres;
-GRANT ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) TO postgres;
-GRANT ALL ON FUNCTION run_tests(test_schema text, test_module text, test_submodule text) TO PUBLIC;
+REVOKE ALL ON FUNCTION run_tests(schema text, module text, submodule text) FROM PUBLIC;
+REVOKE ALL ON FUNCTION run_tests(schema text, module text, submodule text) FROM postgres;
+GRANT ALL ON FUNCTION run_tests(schema text, module text, submodule text) TO postgres;
+GRANT ALL ON FUNCTION run_tests(schema text, module text, submodule text) TO PUBLIC;
 
 
 --
