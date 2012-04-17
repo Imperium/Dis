@@ -2,3 +2,5 @@
 basepath=$(dirname $0)
 cd $basepath/..
 pg_extractor.pl -U postgres -h localhost -d dis -n dis,dis_history,dis_test,dis_example_test,dis_v1 --getschemata --gettables --getviews --getfuncs --gettypes --orreplace --hostname . --dbdir schema --schemasubdir --delete
+
+pg_dump -U postgres -h localhost -Fp -s -ndis -ndis_history -ndis_test -ndis_example_test -ndis_v1 dis > sql/complete/dis.sql
