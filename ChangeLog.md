@@ -39,6 +39,10 @@
 * dis_test.test_242_has_result
 * dis_test.test_244_one_result
 
+### Examples
+
+* move examples to the dis_example_test schema
+
 ## v 0.3.0
 
 ### Framework

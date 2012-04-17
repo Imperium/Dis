@@ -9,10 +9,10 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET escape_string_warning = off;
 
-SET search_path = dis_test, pg_catalog;
+SET search_path = dis_example_test, pg_catalog;
 
 --
--- Name: test_gamma(); Type: FUNCTION; Schema: dis_test; Owner: postgres
+-- Name: test_gamma(); Type: FUNCTION; Schema: dis_example_test; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION test_gamma() RETURNS void
@@ -34,10 +34,10 @@ END;
 $$;
 
 
-ALTER FUNCTION dis_test.test_gamma() OWNER TO postgres;
+ALTER FUNCTION dis_example_test.test_gamma() OWNER TO postgres;
 
 --
--- Name: FUNCTION test_gamma(); Type: COMMENT; Schema: dis_test; Owner: postgres
+-- Name: FUNCTION test_gamma(); Type: COMMENT; Schema: dis_example_test; Owner: postgres
 --
 
 COMMENT ON FUNCTION test_gamma() IS 'Demo test (2012-03-15)';
