@@ -9,18 +9,18 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET escape_string_warning = off;
 
-SET search_path = dis_test, pg_catalog;
+SET search_path = dis_example_test, pg_catalog;
 
 --
--- Name: test_delta(); Type: FUNCTION; Schema: dis_test; Owner: postgres
+-- Name: test_beta(); Type: FUNCTION; Schema: dis_example_test; Owner: postgres
 --
 
-CREATE OR REPLACE FUNCTION test_delta() RETURNS void
+CREATE OR REPLACE FUNCTION test_beta() RETURNS void
     LANGUAGE plpgsql
     AS $$
--- module: example2
--- submodule: larger
--- plan: 2
+-- module: example
+-- submodule: basic2
+-- plan: 3
 DECLARE
     _scores   dis.score[] := '{}'::dis.score[];
 BEGIN
@@ -33,13 +33,13 @@ END;
 $$;
 
 
-ALTER FUNCTION dis_test.test_delta() OWNER TO postgres;
+ALTER FUNCTION dis_example_test.test_beta() OWNER TO postgres;
 
 --
--- Name: FUNCTION test_delta(); Type: COMMENT; Schema: dis_test; Owner: postgres
+-- Name: FUNCTION test_beta(); Type: COMMENT; Schema: dis_example_test; Owner: postgres
 --
 
-COMMENT ON FUNCTION test_delta() IS 'Demo test (2012-03-15)';
+COMMENT ON FUNCTION test_beta() IS 'Demo test (2012-03-15)';
 
 
 --

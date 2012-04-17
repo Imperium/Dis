@@ -9,10 +9,10 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 SET escape_string_warning = off;
 
-SET search_path = dis_test, pg_catalog;
+SET search_path = dis_example_test, pg_catalog;
 
 --
--- Name: test_epsilon(); Type: FUNCTION; Schema: dis_test; Owner: postgres
+-- Name: test_epsilon(); Type: FUNCTION; Schema: dis_example_test; Owner: postgres
 --
 
 CREATE OR REPLACE FUNCTION test_epsilon() RETURNS void
@@ -32,23 +32,13 @@ END;
 $$;
 
 
-ALTER FUNCTION dis_test.test_epsilon() OWNER TO postgres;
+ALTER FUNCTION dis_example_test.test_epsilon() OWNER TO postgres;
 
 --
--- Name: FUNCTION test_epsilon(); Type: COMMENT; Schema: dis_test; Owner: postgres
+-- Name: FUNCTION test_epsilon(); Type: COMMENT; Schema: dis_example_test; Owner: postgres
 --
 
 COMMENT ON FUNCTION test_epsilon() IS 'Demo test (2012-03-15)';
-
-
---
--- Name: test_epsilon(); Type: ACL; Schema: dis_test; Owner: postgres
---
-
-REVOKE ALL ON FUNCTION test_epsilon() FROM PUBLIC;
-REVOKE ALL ON FUNCTION test_epsilon() FROM postgres;
-GRANT ALL ON FUNCTION test_epsilon() TO postgres;
-GRANT ALL ON FUNCTION test_epsilon() TO PUBLIC;
 
 
 --
