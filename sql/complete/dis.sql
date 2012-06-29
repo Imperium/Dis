@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -3896,3 +3897,4 @@ GRANT SELECT ON TABLE result TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
+COMMIT;
