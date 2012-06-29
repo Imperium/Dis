@@ -1,5 +1,11 @@
 # Dis ChangeLog
 
+## v 0.5.0
+
+### Framework
+
+* dis.assertion_summary - view of each assertion state
+
 ## v 0.4.0
 
 ### Framework
