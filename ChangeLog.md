@@ -5,6 +5,8 @@
 ### Framework
 
 * dis.assertion_summary - view of each assertion state
+* wrap sql/complete/dis.sql with a begin/commit block
+* add CONTRIBUTING.md
 
 ## v 0.4.0
 
@@ -136,7 +138,7 @@
 * Management
 ** bin/schema - extract code from database
 ** bin/gensql - package sql for updates
-* Summary Views: 
+* Summary Views:
   * dis.schema_summary - summarize last results by schema
   * dis.module_summary - summarize last results by module
   * dis.submodule_summary - summarize last results by submodule
