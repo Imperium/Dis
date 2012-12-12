@@ -1,3 +1,4 @@
+BEGIN;
 --
 -- PostgreSQL database dump
 --
@@ -3608,6 +3609,23 @@ COMMENT ON TABLE result IS 'Results of test runs (2012-03-15)';
 
 
 --
+-- Name: assertion_summary; Type: VIEW; Schema: dis; Owner: postgres
+--
+
+CREATE VIEW assertion_summary AS
+    SELECT result.schema, result.module, result.submodule, result.name AS test, (unnest(result.detail)).status AS status, (unnest(result.detail)).message AS message, (unnest(result.detail)).detail AS detail, result.modified_at, result.modified_by FROM result;
+
+
+ALTER TABLE dis.assertion_summary OWNER TO postgres;
+
+--
+-- Name: VIEW assertion_summary; Type: COMMENT; Schema: dis; Owner: postgres
+--
+
+COMMENT ON VIEW assertion_summary IS 'Summary of results by assertion (2012-04-17)';
+
+
+--
 -- Name: module_summary; Type: VIEW; Schema: dis; Owner: postgres
 --
 
@@ -3814,6 +3832,16 @@ GRANT SELECT,INSERT,DELETE ON TABLE result TO PUBLIC;
 
 
 --
+-- Name: assertion_summary; Type: ACL; Schema: dis; Owner: postgres
+--
+
+REVOKE ALL ON TABLE assertion_summary FROM PUBLIC;
+REVOKE ALL ON TABLE assertion_summary FROM postgres;
+GRANT ALL ON TABLE assertion_summary TO postgres;
+GRANT SELECT ON TABLE assertion_summary TO PUBLIC;
+
+
+--
 -- Name: module_summary; Type: ACL; Schema: dis; Owner: postgres
 --
 
@@ -3869,3 +3897,4 @@ GRANT SELECT ON TABLE result TO PUBLIC;
 -- PostgreSQL database dump complete
 --
 
+COMMIT;
