@@ -9,14 +9,34 @@
 
         <!-- CSS -->
         <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/prettify.css" rel="stylesheet">
         <style type="text/css">
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
+            .docs-sidenav {
+              width: 20%;
+              background-color: #fff;
+            }
+            .docs-sidenav .icon-chevron-right {
+              float: right;
+              margin-top: 2px;
+              margin-right: -6px;
+              opacity: .25;
+            }
+            section {
+                padding-top: 30px;
+            }
             @media (max-width: 767px) {
                 .docs-sidenav.affix {
                     position: static;
+                }
+                .docs-sidenav {
+                    width: 95%;
+                }
+                section {
+                    padding-top: 10px;
                 }
           }
         </style>
@@ -76,7 +96,7 @@
               <button type="submit" class="btn">Sign in</button>
             </form>
 -->
-          </div><!--/.nav-collapse -->
+          </div><!--/.x-nav-collapse -->
         </div>
       </div>
     </div>
@@ -84,8 +104,19 @@
     <div class="container-fluid">
 
         <div class="row-fluid">
-            <div class="span2 docs-sidebar">
+            <div class="span3 docs-sidebar">
                 <ul class="nav nav-list docs-sidenav" data-spy="affix">
+                    <li class="nav-header">Writing Tests
+                    <li class="active"><a href="#schema"><i class="icon-chevron-right"></i>Schema</a>
+                    <li><a href="#tests"><i class="icon-chevron-right"></i>Test</a>
+                    <li class="nav-header">Running Tests
+                    <li><a href="#single"><i class="icon-chevron-right"></i> Single</a>
+                    <li><a href="#multiple"><i class="icon-chevron-right"></i> Multiple</a>
+                    <li class="nav-header">Reports
+                    <li><a href="#summary"><i class="icon-chevron-right"></i> Summaries</a>
+                    <li><a href="#history"><i class="icon-chevron-right"></i> History</a>
+                    <li><a href="#xml"><i class="icon-chevron-right"></i> XML</a>
+                    <li class="nav-header">Assertions
                     <li><a href="#faux"><i class="icon-chevron-right"></i> Faux</a>
                     <li><a href="#same"><i class="icon-chevron-right"></i> Same</a>
                     <li><a href="#relative"><i class="icon-chevron-right"></i> Relative</a>
@@ -95,10 +126,93 @@
                     <li><a href="#compare"><i class="icon-chevron-right"></i> Compare</a>
                     <li><a href="#raises"><i class="icon-chevron-right"></i> Raises</a>
                     <li><a href="#result"><i class="icon-chevron-right"></i> Result</a>
+                    <!-- <li><a href="#"><i class="icon-chevron-right"></i> </a> -->
                 </ul>
             </div>
 
-            <div class="span10">
+
+            <div class="span9">
+<!--
+                <section id="">
+                    <div class="page-header"><h1></h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+ -->
+                <section id="schema">
+                    <div class="page-header"><h1>Create Test Schema</h1></div>
+                    <p>All of your tests must be in a schema with a name ending with <code>_test</code>.</p>
+<pre class="prettyprint linenums">
+CREATE SCHEMA myapp_test;
+</pre>
+                </section>
+
+                <section id="tests">
+                    <div class="page-header"><h1>Example Test</h1></div>
+                    <p>This is an example test:</p>
+<pre class="prettyprint linenums">
+CREATE OR REPLACE FUNCTION myapp_test.test_alpha() RETURNS void
+    LANGUAGE plpgsql
+    VOLATILE
+    SECURITY INVOKER
+    AS $_$
+-- module: example
+-- submodule: basic
+-- plan: 3
+DECLARE
+    _scores   dis.score[];
+BEGIN
+    _scores := ARRAY[
+        dis.assert(TRUE, 'This is a test'),
+        dis.assert(FALSE, 'Oops this will fail'),
+        dis.assert(TRUE, 'This also works')
+    ];
+    PERFORM dis.tally(_scores);
+END;
+$_$;
+</pre>
+
+                    <p>in _test schema</p>
+                    <p>prefix name with test_</p>
+                    <p>comment with module, submodule, plan</p>
+                    <p>collect array of dis.score types which are passed to dis.tally which throws</p>
+
+                </section>
+                <section id="single">
+                    <div class="page-header"><h1>Run One Test</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+                <section id="multiple">
+                    <div class="page-header"><h1>Run Multiple Tests</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+
+                <section id="summary">
+                    <div class="page-header"><h1>Result Summaries</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+
+                <section id="history">
+                    <div class="page-header"><h1>Result History</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+
+                <section id="xml">
+                    <div class="page-header"><h1>XML Reports</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+
 
                 <section id="faux">
                     <div class="page-header"><h1>Faux Assertions</h1></div>
@@ -109,39 +223,60 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras auctor sagittis ur
                 </section>
 
                 <section id="same">
-                    <div class="page-header"><h1>Faux Assertions</h1></div>
+                    <div class="page-header"><h1>Same Assertions</h1></div>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras auctor sagittis urna id scelerisque. Nulla non nulla lacus. Suspendisse potenti. Phasellus tempor purus accumsan enim hendrerit imperdiet. Aliquam viverra, dolor ut fermentum venenatis, tortor enim facilisis sapien, in malesuada nisl erat at felis. Curabitur egestas interdum risus vel imperdiet. Aliquam erat volutpat. Curabitur in justo ante, sed convallis felis. Suspendisse dignissim ullamcorper nibh, vel pretium erat sodales a. Aliquam eleifend risus in augue rutrum ac interdum nibh porta. Etiam at felis risus. Integer luctus aliquam tincidunt. Vestibulum vitae ipsum sem.</p>
 
 <p>Cras arcu purus, auctor ac auctor ut, varius at justo. Nam non felis vitae nunc fringilla dictum a a augue. Vivamus vitae tortor ante. Mauris lectus tortor, malesuada vel mollis imperdiet, aliquet non dolor. Curabitur nec risus leo, sit amet sagittis turpis. Cras et est et mi accumsan suscipit. Vestibulum ac consectetur augue. Integer purus nisl, sollicitudin eget egestas a, molestie sed lorem. Sed accumsan malesuada nunc, vel egestas ante malesuada sit amet.</p>
                 </section>
                 <section id="relative">
-                    <div class="page-header"><h1>Faux Assertions</h1></div>
+                    <div class="page-header"><h1>Relative Assertions</h1></div>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras auctor sagittis urna id scelerisque. Nulla non nulla lacus. Suspendisse potenti. Phasellus tempor purus accumsan enim hendrerit imperdiet. Aliquam viverra, dolor ut fermentum venenatis, tortor enim facilisis sapien, in malesuada nisl erat at felis. Curabitur egestas interdum risus vel imperdiet. Aliquam erat volutpat. Curabitur in justo ante, sed convallis felis. Suspendisse dignissim ullamcorper nibh, vel pretium erat sodales a. Aliquam eleifend risus in augue rutrum ac interdum nibh porta. Etiam at felis risus. Integer luctus aliquam tincidunt. Vestibulum vitae ipsum sem.</p>
 
 <p>Cras arcu purus, auctor ac auctor ut, varius at justo. Nam non felis vitae nunc fringilla dictum a a augue. Vivamus vitae tortor ante. Mauris lectus tortor, malesuada vel mollis imperdiet, aliquet non dolor. Curabitur nec risus leo, sit amet sagittis turpis. Cras et est et mi accumsan suscipit. Vestibulum ac consectetur augue. Integer purus nisl, sollicitudin eget egestas a, molestie sed lorem. Sed accumsan malesuada nunc, vel egestas ante malesuada sit amet.</p>
                 </section>
 
-
-
-
-
+                <section id="array">
+                    <div class="page-header"><h1>Array Assertions</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+                <section id="match">
+                    <div class="page-header"><h1>Match Assertions</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+                <section id="type">
+                    <div class="page-header"><h1>Type Assertions</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+                <section id="compare">
+                    <div class="page-header"><h1>Compare Assertions</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+                <section id="raises">
+                    <div class="page-header"><h1>Raises Assertions</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
+                <section id="result">
+                    <div class="page-header"><h1>Result Assertions</h1></div>
+                    <p></p>
+<pre class="prettyprint linenums">
+</pre>
+                </section>
 
 
 
             </div>
 
         </div><!-- row -->
-
-
-
-
-
-
-
-
-
-
-
 
       <hr>
 
@@ -153,15 +288,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras auctor sagittis ur
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/prettify.js"></script>
     <script>
-        // $(function(){
-        //     $('.docs-sidenav').affix({
-        //         offset: {
-        //             top: function() { return $window.width() <= 980 ? 290: 210},
-        //             bottom: 270
-        //         }
-        //     })
-        // });
+        $(function(){
+            prettyPrint();
+        });
     </script>
   </body>
 </html>
