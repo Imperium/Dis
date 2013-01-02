@@ -110,6 +110,7 @@
                     <li class="active"><a href="#schema"><i class="icon-chevron-right"></i>Schema</a>
                     <li><a href="#tests"><i class="icon-chevron-right"></i>Test</a>
                     <li class="nav-header">Running Tests
+                    <li><a href="#list"><i class="icon-chevron-right"></i> List</a>
                     <li><a href="#single"><i class="icon-chevron-right"></i> Single</a>
                     <li><a href="#multiple"><i class="icon-chevron-right"></i> Multiple</a>
                     <li class="nav-header">Reports
@@ -140,17 +141,20 @@
 </pre>
                 </section>
  -->
-                <section id="schema">
-                    <div class="page-header"><h1>Create Test Schema</h1></div>
-                    <p>All of your tests must be in a schema with a name ending with <code>_test</code>.</p>
+<section>
+    <div class="page-header"><h1>Writing Tests</h1></div>
+</section>
+<section id="schema">
+    <div class="page-header"><h2>Create Test Schema</h2></div>
+    <p>All of your tests must be in a schema with a name ending with <code>_test</code>.  This is required so that the <code>dis.test</code> view can find all the the tests, but is also is good practice to group and isolate</p>
 <pre class="prettyprint linenums">
 CREATE SCHEMA myapp_test;
 </pre>
-                </section>
+</section>
 
-                <section id="tests">
-                    <div class="page-header"><h1>Example Test</h1></div>
-                    <p>This is an example test:</p>
+<section id="tests">
+    <div class="page-header"><h2>Example Test</h2></div>
+    <p>This is an example test:</p>
 <pre class="prettyprint linenums">
 CREATE OR REPLACE FUNCTION myapp_test.test_alpha() RETURNS void
     LANGUAGE plpgsql
@@ -172,105 +176,136 @@ BEGIN
 END;
 $_$;
 </pre>
-
-                    <p>in _test schema</p>
-                    <p>prefix name with test_</p>
-                    <p>comment with module, submodule, plan</p>
-                    <p>collect array of dis.score types which are passed to dis.tally which throws</p>
-
-                </section>
-                <section id="single">
-                    <div class="page-header"><h1>Run One Test</h1></div>
-                    <p></p>
+<p>
+<ul>
+    <li>(Line 1) Create the function in the <code>*_test</code> schema
+    <li>(Line 1) The test name should start with <code>test_</code>
+    <li>(Line 1) Since all tests should return exceptions the return type doesn't matter but <code>void</code> is a good default
+    <li>(Line 3) Tests should be <code>VOLATILE</code> (which is the default) to ensure that they are always run.
+    <li>(Line 6) In a single line comment, declare the module.  This is just a grouping for the tests and is used for running and reporting results.
+    <li>(Line 7) In a single line comment, declare the submodule.  This is just a sub grouping of module and is used for the same reasons.
+    <li>(Line 8) In a single line comment, declare the plan.  This is the number of assertions made in the test.  If the number of assertions reported to <code>dis.tally</code> is different than the plan then an error is reported.
+    <li>(Line 10) A variable of the type <code>dis.score[]</code>, which is used to collect the results of assertions (which return <code>dis.score</code>).
+    <li>(Line 17) Pass the <code>dis.score[]</code> as a parameter to <code>dis.tally</code> to compute the result of the test.
+</section>
+<section>
+    <div class="page-header"><h1>Running Tests</h1></div>
+</section>
+<section id="list">
+<div class="page-header"><h2>List Tests</h2></div>
+<p>List the tests visible to Dis by schema, module, submodule, and test name</p>
+<pre class="prettyprint linenums">
+SELECT * FROM dis.test order by schema, module, submodule, name;
+</pre>
+</section>
+<section id="single">
+<div class="page-header"><h2>Run One Test</h2></div>
+<p></p>
+<pre class="prettyprint linenums">
+SELECT dis.run_test('myapp_test', 'test_alpha');
+-- the '_test' suffix and 'test_' prefix aren't necessary run_test will add them if not present
+SELECT dis.run_test('myapp', 'alpha');
+</pre>
+</section>
+<section id="multiple">
+<div class="page-header"><h2>Run Multiple Tests</h2></div>
+<p></p>
+<pre class="prettyprint linenums">
+-- run all tests
+SELECT dis.run_tests();
+-- run all tests in a schema (again the '_test' suffix is not required)
+SELECT dis.run_tests('myapp');
+-- run all tests in a schema module
+SELECT dis.run_tests('myapp', 'example');
+-- run all tests in a schema module submodule
+SELECT dis.run_tests('myapp', 'example', 'basic');
+</pre>
+</section>
+<section>
+    <div class="page-header"><h1>Reporting</h1></div>
+</section>
+<section id="summary">
+<div class="page-header"><h2>Result Summaries</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
-                <section id="multiple">
-                    <div class="page-header"><h1>Run Multiple Tests</h1></div>
-                    <p></p>
+</section>
+
+<section id="history">
+<div class="page-header"><h2>Result History</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
+</section>
 
-                <section id="summary">
-                    <div class="page-header"><h1>Result Summaries</h1></div>
-                    <p></p>
+<section id="xml">
+<div class="page-header"><h2>XML Reports</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
+</section>
 
-                <section id="history">
-                    <div class="page-header"><h1>Result History</h1></div>
-                    <p></p>
-<pre class="prettyprint linenums">
-</pre>
-                </section>
+<section>
+    <div class="page-header"><h1>Assertions</h1></div>
+</section>
 
-                <section id="xml">
-                    <div class="page-header"><h1>XML Reports</h1></div>
-                    <p></p>
-<pre class="prettyprint linenums">
-</pre>
-                </section>
-
-
-                <section id="faux">
-                    <div class="page-header"><h1>Faux Assertions</h1></div>
-                    <p>
+<section id="faux">
+<div class="page-header"><h2>Faux Assertions</h2></div>
+<p>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras auctor sagittis urna id scelerisque. Nulla non nulla lacus. Suspendisse potenti. Phasellus tempor purus accumsan enim hendrerit imperdiet. Aliquam viverra, dolor ut fermentum venenatis, tortor enim facilisis sapien, in malesuada nisl erat at felis. Curabitur egestas interdum risus vel imperdiet. Aliquam erat volutpat. Curabitur in justo ante, sed convallis felis. Suspendisse dignissim ullamcorper nibh, vel pretium erat sodales a. Aliquam eleifend risus in augue rutrum ac interdum nibh porta. Etiam at felis risus. Integer luctus aliquam tincidunt. Vestibulum vitae ipsum sem.</p>
 
 <p>Cras arcu purus, auctor ac auctor ut, varius at justo. Nam non felis vitae nunc fringilla dictum a a augue. Vivamus vitae tortor ante. Mauris lectus tortor, malesuada vel mollis imperdiet, aliquet non dolor. Curabitur nec risus leo, sit amet sagittis turpis. Cras et est et mi accumsan suscipit. Vestibulum ac consectetur augue. Integer purus nisl, sollicitudin eget egestas a, molestie sed lorem. Sed accumsan malesuada nunc, vel egestas ante malesuada sit amet.</p>
-                </section>
+</section>
 
-                <section id="same">
-                    <div class="page-header"><h1>Same Assertions</h1></div>
+<section id="same">
+<div class="page-header"><h2>Same Assertions</h2></div>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras auctor sagittis urna id scelerisque. Nulla non nulla lacus. Suspendisse potenti. Phasellus tempor purus accumsan enim hendrerit imperdiet. Aliquam viverra, dolor ut fermentum venenatis, tortor enim facilisis sapien, in malesuada nisl erat at felis. Curabitur egestas interdum risus vel imperdiet. Aliquam erat volutpat. Curabitur in justo ante, sed convallis felis. Suspendisse dignissim ullamcorper nibh, vel pretium erat sodales a. Aliquam eleifend risus in augue rutrum ac interdum nibh porta. Etiam at felis risus. Integer luctus aliquam tincidunt. Vestibulum vitae ipsum sem.</p>
 
 <p>Cras arcu purus, auctor ac auctor ut, varius at justo. Nam non felis vitae nunc fringilla dictum a a augue. Vivamus vitae tortor ante. Mauris lectus tortor, malesuada vel mollis imperdiet, aliquet non dolor. Curabitur nec risus leo, sit amet sagittis turpis. Cras et est et mi accumsan suscipit. Vestibulum ac consectetur augue. Integer purus nisl, sollicitudin eget egestas a, molestie sed lorem. Sed accumsan malesuada nunc, vel egestas ante malesuada sit amet.</p>
-                </section>
-                <section id="relative">
-                    <div class="page-header"><h1>Relative Assertions</h1></div>
+</section>
+<section id="relative">
+<div class="page-header"><h2>Relative Assertions</h2></div>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras auctor sagittis urna id scelerisque. Nulla non nulla lacus. Suspendisse potenti. Phasellus tempor purus accumsan enim hendrerit imperdiet. Aliquam viverra, dolor ut fermentum venenatis, tortor enim facilisis sapien, in malesuada nisl erat at felis. Curabitur egestas interdum risus vel imperdiet. Aliquam erat volutpat. Curabitur in justo ante, sed convallis felis. Suspendisse dignissim ullamcorper nibh, vel pretium erat sodales a. Aliquam eleifend risus in augue rutrum ac interdum nibh porta. Etiam at felis risus. Integer luctus aliquam tincidunt. Vestibulum vitae ipsum sem.</p>
 
 <p>Cras arcu purus, auctor ac auctor ut, varius at justo. Nam non felis vitae nunc fringilla dictum a a augue. Vivamus vitae tortor ante. Mauris lectus tortor, malesuada vel mollis imperdiet, aliquet non dolor. Curabitur nec risus leo, sit amet sagittis turpis. Cras et est et mi accumsan suscipit. Vestibulum ac consectetur augue. Integer purus nisl, sollicitudin eget egestas a, molestie sed lorem. Sed accumsan malesuada nunc, vel egestas ante malesuada sit amet.</p>
-                </section>
+</section>
 
-                <section id="array">
-                    <div class="page-header"><h1>Array Assertions</h1></div>
-                    <p></p>
+<section id="array">
+<div class="page-header"><h2>Array Assertions</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
-                <section id="match">
-                    <div class="page-header"><h1>Match Assertions</h1></div>
-                    <p></p>
+</section>
+<section id="match">
+<div class="page-header"><h2>Match Assertions</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
-                <section id="type">
-                    <div class="page-header"><h1>Type Assertions</h1></div>
-                    <p></p>
+</section>
+<section id="type">
+<div class="page-header"><h2>Type Assertions</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
-                <section id="compare">
-                    <div class="page-header"><h1>Compare Assertions</h1></div>
-                    <p></p>
+</section>
+<section id="compare">
+<div class="page-header"><h2>Compare Assertions</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
-                <section id="raises">
-                    <div class="page-header"><h1>Raises Assertions</h1></div>
-                    <p></p>
+</section>
+<section id="raises">
+<div class="page-header"><h2>Raises Assertions</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
-                <section id="result">
-                    <div class="page-header"><h1>Result Assertions</h1></div>
-                    <p></p>
+</section>
+<section id="result">
+<div class="page-header"><h2>Result Assertions</h2></div>
+<p></p>
 <pre class="prettyprint linenums">
 </pre>
-                </section>
+</section>
 
 
 
